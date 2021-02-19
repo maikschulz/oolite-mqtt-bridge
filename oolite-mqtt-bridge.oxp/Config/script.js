@@ -1,7 +1,7 @@
 this.name           = "oolite-mqtt-bridge";
 this.author         = "Maik Schulz";
 this.copyright      = "(C) 2021 Maik Schulz";
-this.licence        = "CC-NC-by-SA 2.0";
+this.licence        = "MIT";
 this.description    = "Pushes game data as JSON structures to the debug console";
 this.version        = "0.1";
 
