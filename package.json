@@ -1,0 +1,13 @@
+{
+    "name": "oolite-mqtt-bridge",
+    "version": "0.0.1",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "mqtt": "^4.2.6",
+        "plist-ex": "^0.4.4"
+    }
+}
