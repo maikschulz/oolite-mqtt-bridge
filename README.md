@@ -2,6 +2,7 @@
 An implementation of Oolite's debug console protocol to interface to MQTT
 
 ![Node-RED UIBuilder-based Oolite Dashboard](https://github.com/maikschulz/oolite-mqtt-bridge/blob/master/uibuilder-demo-01.png?raw=true)
+![Node-RED UIBuilder flow for the Oolite Dashboard](https://github.com/maikschulz/oolite-mqtt-bridge/blob/master/uibuilder-flow-01.png?raw=true)
 
 ## Requirements
 - A debug version of Oolite (http://oolite.org)
