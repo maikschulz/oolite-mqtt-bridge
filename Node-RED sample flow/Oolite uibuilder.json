@@ -1,0 +1,449 @@
+[
+    {
+        "id": "f25e60e9.651cb8",
+        "type": "tab",
+        "label": "Oolite UI Builder",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c0f49e8e.7d3948",
+        "type": "mqtt in",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "topic": "oolite/comms",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "5b635b6e.570cc4",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "6258d74f.22269"
+            ]
+        ]
+    },
+    {
+        "id": "40173456.a27a1c",
+        "type": "mqtt in",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "topic": "oolite/controls",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "5b635b6e.570cc4",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "6258d74f.22269"
+            ]
+        ]
+    },
+    {
+        "id": "b7c85c89.07df58",
+        "type": "mqtt in",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "topic": "oolite/alert",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "5b635b6e.570cc4",
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "6258d74f.22269"
+            ]
+        ]
+    },
+    {
+        "id": "6258d74f.22269",
+        "type": "function",
+        "z": "f25e60e9.651cb8",
+        "name": "Convert payload to object",
+        "func": "msg.payload = JSON.parse(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 350,
+        "y": 120,
+        "wires": [
+            [
+                "fef35b1b.7b7ac"
+            ]
+        ]
+    },
+    {
+        "id": "fef35b1b.7b7ac",
+        "type": "uibuilder",
+        "z": "f25e60e9.651cb8",
+        "name": "Oolite UI",
+        "topic": "",
+        "url": "oolite",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "showfolder": false,
+        "useSecurity": false,
+        "sessionLength": 432000,
+        "tokenAutoExtend": false,
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "a8eb9893.7e8c5",
+                "7e9d47a7.9ece98",
+                "5db27d31.3147e4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2f6def69.8f6778",
+        "type": "switch",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "property": "payload.command",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "alert",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 590,
+        "y": 400,
+        "wires": [
+            [
+                "24bba185.59914e",
+                "5648e490.f5c9bc"
+            ],
+            [
+                "57cddf98.11bf5"
+            ]
+        ]
+    },
+    {
+        "id": "24bba185.59914e",
+        "type": "function",
+        "z": "f25e60e9.651cb8",
+        "name": "blink red",
+        "func": "msg.payload = {\n    \"state\":\"ON\",\n    \"color\":{\"hex\":\"#FF0000\"},\n    \"brightness\":254,\n    \"effect\":\"blink\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 760,
+        "y": 380,
+        "wires": [
+            [
+                "ad04b74.5f22dc8"
+            ]
+        ]
+    },
+    {
+        "id": "ad04b74.5f22dc8",
+        "type": "mqtt out",
+        "z": "f25e60e9.651cb8",
+        "name": "Upstairs Light",
+        "topic": "zigbee2mqtt/spot.office.bk/set",
+        "qos": "",
+        "retain": "",
+        "broker": "5b635b6e.570cc4",
+        "x": 1100,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "39d4e4ec.d3199c",
+        "type": "exec",
+        "z": "f25e60e9.651cb8",
+        "command": "pico2wave -w /tmp/messages/message.wav",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "TTS",
+        "x": 890,
+        "y": 480,
+        "wires": [
+            [],
+            [],
+            [
+                "984e30e1.8e7968"
+            ]
+        ]
+    },
+    {
+        "id": "5925112f.e63928",
+        "type": "function",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "func": "duration = msg.payload;\nmsg.payload = \"http://raspberrypi.local/messages/message.wav\";\nmsg.volume = 20;\nmsg.sameVolume = true;\nmsg.duration = duration.substring(0,8);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1220,
+        "y": 480,
+        "wires": [
+            [
+                "8a036bf5.c918"
+            ]
+        ]
+    },
+    {
+        "id": "8a036bf5.c918",
+        "type": "sonos-universal",
+        "z": "f25e60e9.651cb8",
+        "confignode": "afd1ac31.db348",
+        "compatibilityMode": false,
+        "command": "group.play.notification",
+        "state": "",
+        "stateType": "str",
+        "name": "Speak message",
+        "x": 1400,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "984e30e1.8e7968",
+        "type": "exec",
+        "z": "f25e60e9.651cb8",
+        "command": "soxi -d /tmp/messages/message.wav",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "get duration",
+        "x": 1050,
+        "y": 480,
+        "wires": [
+            [
+                "5925112f.e63928"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "57cddf98.11bf5",
+        "type": "function",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "func": "msg.payload = \"\\\"\" + msg.payload.message + \"\\\"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 740,
+        "y": 480,
+        "wires": [
+            [
+                "39d4e4ec.d3199c"
+            ]
+        ]
+    },
+    {
+        "id": "a8eb9893.7e8c5",
+        "type": "debug",
+        "z": "f25e60e9.651cb8",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 270,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5648e490.f5c9bc",
+        "type": "delay",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 760,
+        "y": 340,
+        "wires": [
+            [
+                "207ae599.835d92"
+            ]
+        ]
+    },
+    {
+        "id": "207ae599.835d92",
+        "type": "function",
+        "z": "f25e60e9.651cb8",
+        "name": "reset",
+        "func": "msg.payload = {\n    \"color\": {\n        \"hex\": \"#ffffff\"\n    },\n    \"color_temp\": 350,\n    \"brightness\": 254\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 910,
+        "y": 340,
+        "wires": [
+            [
+                "ad04b74.5f22dc8"
+            ]
+        ]
+    },
+    {
+        "id": "7e9d47a7.9ece98",
+        "type": "switch",
+        "z": "f25e60e9.651cb8",
+        "name": "is bridge status",
+        "property": "payload.bridge",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "string",
+                "vt": "string"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "3bc92908.7e0106"
+            ]
+        ]
+    },
+    {
+        "id": "3bc92908.7e0106",
+        "type": "change",
+        "z": "f25e60e9.651cb8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "bridge",
+                "pt": "flow",
+                "to": "payload.bridge",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5db27d31.3147e4",
+        "type": "switch",
+        "z": "f25e60e9.651cb8",
+        "name": "is command",
+        "property": "payload.command",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "string",
+                "vt": "string"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 270,
+        "y": 400,
+        "wires": [
+            [
+                "1205a50a.68e0e3"
+            ]
+        ]
+    },
+    {
+        "id": "1205a50a.68e0e3",
+        "type": "switch",
+        "z": "f25e60e9.651cb8",
+        "name": "bridge is empty",
+        "property": "bridge",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "empty",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 400,
+        "wires": [
+            [
+                "2f6def69.8f6778"
+            ]
+        ]
+    },
+    {
+        "id": "5b635b6e.570cc4",
+        "type": "mqtt-broker",
+        "name": "Raspberry Pi Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "afd1ac31.db348",
+        "type": "sonos-config",
+        "name": "Sonos Living Room",
+        "serialnum": "94-9F-3E-7F-FA-60:8",
+        "ipaddress": "192.168.178.25"
+    }
+]

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Oolite UI</title>
+    <meta name="description" content="External Oolite UI">
+
+    <link rel="icon" href="./images/node-blue.ico">
+
+    <link type="text/css" rel="stylesheet" href="../uibuilder/vendor/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue.css" />
+    <!-- Your own CSS -->
+    <link type="text/css" rel="stylesheet" href="./index.css" media="all">
+
+</head><body>
+
+    <div id="app" v-cloak>
+        <b-container id="app_container" fluid h-100>
+            <b-card class="mt-3">
+                <p class="mt-1 pb-3">
+                <b-button id="btnLeave" v-on:click="setBridgeStatus('empty')">Leave Bridge</b-button>
+                <b-button id="btnReturn" v-on:click="setBridgeStatus('manned')">Return to Bridge</b-button>
+                <p>Bridge Status: <b>{{bridgeStatus}}</b></p>
+                </p>
+            </b-card>
+            <b-card class="mt-3" header="Status" border-variant="info" header-bg-variant="info" header-text-variant="white" align="center" >
+                <p>Speed: <b>{{speed}}</b></p>
+                <p>Alert Condition: <b>{{alertCondition}}</b></p>
+            </b-card>
+            <b-card class="mt-3" header="Comms Messages" border-variant="primary" header-bg-variant="primary" header-text-variant="white" align="left">
+            <pre v-html="hCommsMessages"></pre>
+            </b-card>
+        </b-container>
+    </div>
+
+
+    <!-- These MUST be in the right order. Note no leading / -->
+
+    <!-- REQUIRED: Socket.IO is loaded only once for all instances. Without this, you don't get a websocket connection -->
+    <script src="../uibuilder/vendor/socket.io/socket.io.js"></script>
+
+    <!-- Vendor Libraries - Load in the right order, use minified, production versions for speed -->
+    <script src="../uibuilder/vendor/vue/dist/vue.js"></script> <!-- dev version with component compiler -->
+    <!-- <script src="../uibuilder/vendor/vue/dist/vue.min.js"></script>   prod version with component compiler -->
+    <!-- <script src="../uibuilder/vendor/vue/dist/vue.runtime.min.js"></script>   prod version without component compiler -->
+    <script src="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue.js"></script> <!-- Dev version -->
+    <!-- <script src="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue.min.js"></script>   Prod version -->
+
+    <!-- REQUIRED: Sets up Socket listeners and the msg object -->
+    <script src="./uibuilderfe.js"></script> <!-- dev version -->
+    <!-- <script src="./uibuilderfe.min.js"></script>     prod version -->
+
+    <!-- OPTIONAL: You probably want this. Put your custom code here -->
+    <script src="./index.js"></script>
+
+</body></html>
