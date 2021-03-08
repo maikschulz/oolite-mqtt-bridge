@@ -43,6 +43,8 @@ Messages to oolite/comms are sent if the player receives a comms messages in Ool
 
 ## Installation
 I use a Windows 10 machine to run Oolite and the oolite-mqtt-bridge server, and and Raspberry Pi 3B to run MQTT and Node-RED, all in my local network.
+
+### Raspberry Pi
 - My Raspberry Pi runs a Debian flavor (Raspberry Pi OS Lite). You need to install node.js and Node-RED, good instructions to install both at the same time are in the Node-RED documentation here: https://nodered.org/docs/getting-started/raspberrypi
 - In Node-RED you need to go to the palette manager and add either node-red-contrib-uibuilder, or node-red-dashboard. Dashboard is simpler to use but more limited in design, UIBuilder needs HTML, CSS, and JavaScript skills. In this repository I provide sample flows for both, which can be imported into Node-RED. Note that my UIBuilder flow also refers to components in my home automation: a Sonos speaker to read out Oolite comms messages, and a smart bulb to flash red when the alert condition becomes red. Both only happen when the bridge is not manned (you click a button to notify about your absence/presence). You might want to replace them with debug nodes or whatever makes sense in your home.
 - In order to generate audio from messages I use PicoTTS (the text-to-speech engine that Google integrated into Android, so light-weight enough for a Raspberry Pi):
@@ -60,6 +62,13 @@ I use a Windows 10 machine to run Oolite and the oolite-mqtt-bridge server, and 
     ```
     allow_anonymous true
     ```
+
+### Windows
+- Download and install Oolite from http://oolite.org/download/, then download and install the "Developer release converter" from the same page (scroll down to find it)
+- Copy the oolite-mqtt-bridge.oxp folder from this repository to the AddOns directory (typically C:\Oolite\AddOns)
+- Install node.js from https://nodejs.org/en/download/
+- Download the code from this repository as a zip (use the green Download button above), and unpack it
+- Get the dependencies with npm
 
 ## Usage
 First start MQTT, then start this server, then start Oolite. Consume messages from the MQTT topics and do something fun with the data.
