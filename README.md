@@ -68,7 +68,12 @@ I use a Windows 10 machine to run Oolite and the oolite-mqtt-bridge server, and 
 - Copy the oolite-mqtt-bridge.oxp folder from this repository to the AddOns directory (typically C:\Oolite\AddOns)
 - Install node.js from https://nodejs.org/en/download/
 - Download the code from this repository as a zip (use the green Download button above), and unpack it
-- Get the dependencies with npm
+- Install the dependencies
+    ```
+    cd <directory of unzipped oolite-mqtt-bridge>
+    npm install
+    ```
+    
 
 ## Usage
 First start MQTT, then start this server, then start Oolite. Consume messages from the MQTT topics and do something fun with the data.
